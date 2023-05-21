@@ -28,6 +28,8 @@ async function run() {
         const galleryCollectionOne = client.db("toyVerse").collection("gallaryOne");
         const galleryCollectionTwo = client.db("toyVerse").collection("gallaryTwo");
 
+        const toyCollection = client.db("toyVerse").collection("allToys")
+
         app.get("/gallery-one", async (req, res) => {
             const cursor = galleryCollectionOne.find();
             const result = await cursor.toArray();
@@ -38,6 +40,13 @@ async function run() {
             const cursor = galleryCollectionTwo.find();
             const result = await cursor.toArray();
             res.send(result);
+        })
+
+        app.post('/toy', async(req, res)=>{
+            const newToy = req.body;
+            console.log(newToy);
+            const result = await toyCollection.insertOne(newToy);
+            res.send(result)
         })
 
         // Send a ping to confirm a successful connection
